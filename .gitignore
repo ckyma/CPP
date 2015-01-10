@@ -62,3 +62,5 @@ Thumbs.db
 
 Makefile
 *.mk
+/Chapter1/build/
+/Chapter1/dist/
