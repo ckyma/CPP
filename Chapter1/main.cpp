@@ -55,9 +55,50 @@ void print (const I & start, const I & end)
     I it;
     for(it = start; it != end; ++it)
     {
-            cout << *it << " ";
+        cout << *it << " ";
     }
     cout<<endl;
+}
+
+template<class C>
+void print (const C & container)
+{
+    for(unsigned i = 0; i < container.size(); ++i)
+    {
+        cout<< container.at(i) << " ";
+    }
+    cout<<endl;
+}
+
+// Functor
+struct DeleteOdd
+{
+    bool operator ()(int value)
+    {
+        if (value % 2 > 0 )
+        {
+            return true;
+        }
+        return false;
+    }
+};
+// Function
+bool deleteEven(int value)
+{
+    if (value % 2 == 0 )
+    {
+        return true;
+    }
+    return false;
+}
+
+bool compareInt(double v1, double v2)
+{
+    if ((int)v1 == (int)v2)
+    {
+        return true;
+    }
+    return false;
 }
 
 int main(int argc, char** argv) {
@@ -143,6 +184,35 @@ int main(int argc, char** argv) {
     print(v.begin(), v.end());
     // print<vector::iterator>(v.begin(), v.end());     // error: expected a class or namespace
     print<>(v.begin(), v.end());
+    
+    // use at()
+    print(v);
+    
+    cout<<"Accessing out of range element:\n";
+    cout<<v[10]<<" " <<d[10]<<endl;
+    
+    // Runtime exception: libc++abi.dylib: terminating with uncaught exception of type std::out_of_range: vector
+    // cout<<v.at(11)<<endl;    // No compilation error
+    
+    try
+    {
+        cout<<v.at(11)<<endl;
+    }
+    catch (out_of_range & ex)
+    {
+        cout<< ex.what()<<endl;
+    }
+    
+    list<int> lOdd(v.begin(), v.end());
+    list<int> lEven(v.begin(), v.end());
+    
+    // Functor needs operator ()
+    lEven.remove_if(DeleteOdd());
+    // Function needs name ONLY
+    // vEven.remove_if(deleteEven());  // error: no matching function for call to 'deleteEven'
+    lOdd.remove_if(deleteEven);
+    print(lOdd.begin(), lOdd.end());
+    print(lEven.begin(), lEven.end());
     
     /*
      * 1.2 Sequential container
