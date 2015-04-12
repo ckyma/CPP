@@ -9,6 +9,8 @@
 #include <list>
 #include <deque>
 #include <iostream>
+#include <queue>
+//#include <functional>
 
 using namespace std;
 
@@ -220,6 +222,40 @@ int main(int argc, char** argv) {
     // Destructor: for the one element in v2
     // Destructor: for the two elements in v1
     // Destructor
+    
+    /*
+     * 1.5 Container adapters
+     */
+    
+    // Constructors
+    int a1[]={1, 100, 34, 23, 9};
+    //1. default constructor
+    priority_queue<int>  s1;
+    //2. copy constructor;
+    priority_queue<int>  s2(s1);
+    //3. initialization using iterators
+    vector<int>  v51(a1, a1+10);
+    priority_queue<int>  s3(v51.begin(), v51.end());
+    //4. using nondefault storage
+    priority_queue< int, deque <int> > s4;
+    //5. Providing different comparator type
+    priority_queue< int, vector<int>, greater <int> > s5;
+    
+    // Operations
+    priority_queue<int>  q1(a1, a1+5);
+    priority_queue< int, deque<int>, greater <int> > q2(a1, a1+5);
+    cout<< "q1 queue top: " << q1.top()<<endl;
+    cout<< "q2 queue top: " << q2.top()<<endl;
+    cout<<"Adding value: 101\n";
+    q1.push(101);
+    q2.push(101);
+    cout<< "q1 queue top: " << q1.top()<<endl;
+    cout<< "q2 queue top: " << q2.top()<<endl;
+    cout<<"Removing top of the queue: \n";
+    q1.pop();
+    q2.pop();
+    cout<< "q1 queue top: " << q1.top()<<endl;
+    cout<< "q2 queue top: " << q2.top()<<endl;
     
     return 0;
 }
